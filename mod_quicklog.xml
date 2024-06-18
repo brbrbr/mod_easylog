@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
+ <name>mod_quicklog</name>
+  <author>Bram Brambring</author>
+  <creationDate>18-06-2024</creationDate>
+  <copyright>(C) 2024 Bram Brambring</copyright>
+  <license>GNU General Public License version 3 or later</license>
+  <authorEmail>bram@brambring.nl</authorEmail>
+  <authorUrl>https://brambring.nl</authorUrl>
+  <version>24.44.dev</version>
+  <description>MOD_QUICKLOG_XML_DESCRIPTION</description>
+  <namespace path="src">Brambring\Module\Quicklog</namespace>
+  <scriptfile>script.php</scriptfile>
+  <files>
+    <folder module="mod_quicklog">services</folder>
+    <folder>src</folder>
+    <folder>tmpl</folder>
+    <file>CHANGELOG.txt</file>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/mod_quicklog.ini</language>
+    <language tag="en-GB">language/en-GB/mod_quicklog.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="basic">
+      </fieldset>
+    </fields>
+  </config>
+  <updateservers>
+    <server name="brambring.nl" type="extension">https://downloads.brokenlinkchecker.dev/mod_quicklog.xml</server>
+  </updateservers>
+</extension>
