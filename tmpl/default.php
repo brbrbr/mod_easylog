@@ -22,65 +22,67 @@ use Joomla\CMS\Uri\Uri;
 
 <table class="table">
   <?php
-      $query = [
-        'option' => 'com_ajax',
-        'module' => 'quicklog',
-        'format' => 'raw',
-        'method' => 'view',
+  $sessionToken = Session::getFormToken();
 
-        Session::getFormToken() => 1,
-      ];
-      foreach ($list as $name => $file) {
-          //reset just to be sure
+  foreach ($list as $name => $file) {
+    //reset query
+    $query = [
+      'option' => 'com_ajax',
+      'module' => 'quicklog',
+      'format' => 'raw',
+      'method' => 'view',
+      'name' => $name,
+      $sessionToken => 1,
+    ];
+    $toolbar             = new Toolbar($name);
+    $url                 = Route::link('administrator', $query) . '#bottom';
+    $viewButton          = new LinkButton('view-' . $name, 'View');
+    $viewButton->url($url)
+      // ->iframeWidth(640)
+      //   ->iframeHeight(480)
+      ->icon('icon-eye')
+      ->target('view-source');
+    $toolbar->appendButton($viewButton);
 
-          $query['name']       = $name;
-          $query['method']     = 'view';
-          $toolbar             = new Toolbar($name);
-          $url                 = Route::link('administrator', $query) . '#bottom';
-          $viewButton          = new LinkButton('view-' . $name, 'View');
-          $viewButton->url($url)
-            // ->iframeWidth(640)
-            //   ->iframeHeight(480)
-            ->icon('icon-eye')
-            ->target('view-source');
-          $toolbar->appendButton($viewButton);
-
-          $query['method'] = 'download';
-          $url             = Route::link('administrator', $query);
-          $downloadButton  = new LinkButton('download-' . $name, 'Download');
-          $downloadButton->url($url)
-            ->icon('icon-download');
-          $toolbar->appendButton($downloadButton);
-
-
-          $query['method'] = 'delete';
-          $query['return'] = base64_encode(Uri::getInstance()->toString(['path','query']));
-          $url             = Route::link('administrator', $query);
-          $deleteButton    = new LinkButton('delete-' . $name, 'Delete',
-            [
-              'attributes'=>
-              [
-                'onclick'=>htmlspecialchars("return confirm('Are you sure you want to delete? Confirming will permanently delete the file $name!')")
-                ]
-              ]
-            );
-        
-          $deleteButton->url($url)
-            ->buttonClass('button-delete btn btn-danger btn-sm')
-            ->icon('icon-delete')
-            ->onclick('');
-          $toolbar->appendButton($deleteButton);
+    $query['method'] = 'download';
+    $url             = Route::link('administrator', $query);
+    $downloadButton  = new LinkButton('download-' . $name, 'Download');
+    $downloadButton->url($url)
+      ->icon('icon-download');
+    $toolbar->appendButton($downloadButton);
 
 
-          print "<tr><th scope=\"row\" class=\"border-0\"  colspan=\"3\">{$file['file']}</th></tr>";
-          if ($access) {
-              print "<tr><td class=\"border-0\" >" .   $viewButton->render() . "</td>
+    $query['method'] = 'delete';
+    $query['return'] = base64_encode(Uri::getInstance()->toString(['path', 'query']));
+    $url             = Route::link('administrator', $query);
+    $deleteButton    = new LinkButton(
+      'delete-' . $name,
+      'Delete',
+      [
+        'attributes' =>
+        [
+          'onclick' => htmlspecialchars("return confirm('Are you sure you want to delete? Confirming will permanently delete the file $name!')")
+        ]
+      ]
+    );
+
+    $deleteButton->url($url)
+      ->buttonClass('button-delete btn btn-danger btn-sm')
+      ->icon('icon-delete')
+      ->onclick('');
+    $toolbar->appendButton($deleteButton);
+    $short=basename($name,'.php');
+
+
+    print "<tr><th scope=\"row\" class=\"border-0\"  colspan=\"3\">{$short}</th></tr>";
+    if ($access) {
+      print "<tr><td class=\"border-0\" >" .   $viewButton->render() . "</td>
     <td class=\"border-0\" >" .   $downloadButton->render() . "</td>
     <td class=\"border-0\" >" .   $deleteButton->render() . "</td>
 </tr>";
-          }
-          print "<tr><td >{$file['size']}</td><td  colspan=\"2\">{$file['date']}</td></tr>";
-      }
+    }
+    print "<tr><td >{$file['size']}</td><td  colspan=\"2\">{$file['date']}</td></tr>";
+  }
 
-        ?>
+  ?>
 </table>
