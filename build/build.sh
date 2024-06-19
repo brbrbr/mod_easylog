@@ -2,7 +2,7 @@
 EXTENSION_ZIP_FILENAME="build/mod_easylog.zip"
 EXTENSION_ELEMENT="mod_easylog"
 PATTERN="4\.4\.[0-9]\+"
-VERSION="4.4.1"
+VERSION="4.4.2"
 if [ ! -f "$EXTENSION_ELEMENT.xml" ]; then cd ..; fi
 if [ -f "$EXTENSION_ZIP_FILENAME" ]; then rm $EXTENSION_ZIP_FILENAME; fi
 

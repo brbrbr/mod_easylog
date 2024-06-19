@@ -6,12 +6,12 @@
     <element>mod_easylog</element>
     <type>module</type>
     <client>administrator</client>
-    <version>4.4.1</version>
+    <version>4.4.2</version>
     <infourl title="Easy Log Viewer Module">hhttps://github.com/brbrbr/mod_easylog</infourl>
     <downloads>
-      <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.1/mod_easylog.zip</downloadurl>
+      <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.2/mod_easylog.zip</downloadurl>
     </downloads>
-    <sha512>4acbd4cbc9fd6bb9e3757c40a0e759a727c8c87a3feb5735ab79127551f28bf0940236afaa3b21369154e50c7e2a1f1397d32e54915f1454a5f84dd659f9c74b</sha512>
+    <sha512>61b87fc5a8d950e8317e61be9e4fd99c8a73539a16cbf97f45ee0983bad490baadd26a3a3ef6597b0efde8af0b3828c41d684869628a8c7249f693b1e9496cfc</sha512>
     <tags>
       <tag>stable</tag>
     </tags>
