@@ -19,4 +19,5 @@
     <maintainerurl>https://brokenlinkchecker.dev</maintainerurl>
     <php_minimum>8.1.0</php_minimum>
     <targetplatform name="joomla" version="(5.(0|1)|4.(4))"/>
+</update>
 </updates>

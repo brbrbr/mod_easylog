@@ -27,6 +27,7 @@ use Joomla\Registry\Registry;
 class EasylogHelper implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
+
     private ?Registry $params;
     /**
      * Returns a list of log files with metadata
@@ -55,8 +56,8 @@ class EasylogHelper implements DatabaseAwareInterface
             if ($fileInfo->getExtension() != 'php') {
                 continue;
             }
-            $tz = date_default_timezone_get();
-            $mTime = new Date($fileInfo->getMTime(), $tz);
+            $tz    = date_default_timezone_get();
+            $mTime = new Date((string)$fileInfo->getMTime(), $tz);
 
             // date_default_timezone_get() is most likely the timezone of the file stamps
             $files[$fileInfo->getFileName()] = [
@@ -66,21 +67,21 @@ class EasylogHelper implements DatabaseAwareInterface
                 'size'      => $this->humanFileSize($fileInfo->getSize()),
                 'bytesSize' => $fileInfo->getSize(),
                 'mtime'     => $fileInfo->getMTime(),
-                'utc'      => HTMLHelper::_('date', $mTime, 'DATE_FORMAT_FILTER_DATETIME', 'UTC'),
+                'utc'       => HTMLHelper::_('date', $mTime, 'DATE_FORMAT_FILTER_DATETIME', 'UTC'),
                 'date'      => HTMLHelper::_('date', $mTime, 'DATE_FORMAT_FILTER_DATETIME'),
             ];
         }
         uasort($files, [$this, 'rSortMTime']);
 
-        $errorLog = ini_get('error_log');
+        $errorLog = \ini_get('error_log');
 
         if (is_readable($errorLog)) {
-            $size = \filesize($errorLog);
-            $mTime = \filemtime($errorLog);
+            $size               = filesize($errorLog);
+            $mTime              = filemtime($errorLog);
             $files['error_log'] =
                 [
                     'folder'    => \dirname($errorLog),
-                    'file'      => \basename($errorLog),
+                    'file'      => basename($errorLog),
                     'path'      => $errorLog,
                     'size'      => $this->humanFileSize($size),
                     'bytesSize' => $size,
@@ -116,12 +117,12 @@ class EasylogHelper implements DatabaseAwareInterface
 
     /**
      * Return (part) of the requested log file
-     * 
+     *
      * A ajax call via com_ajax should return a value not null
      * howver this function closes the application
      *
      * @return  void
-     * 
+     *
      * @throws \Exception
      *
      * @since   4.4
@@ -136,14 +137,14 @@ class EasylogHelper implements DatabaseAwareInterface
         $name  = $input->get('name', '', 'cmd');
         if (isset($files[$name])) {
             $file = $files[$name];
-            $id  = $input->get('id', 0, 'int');
+            $id   = $input->get('id', 0, 'int');
 
-            $maxSize = 100;
+            $maxSize  = 100;
             $maxLines = 100;
             $this->setParamsById((string)$id);
 
-            $maxSize = max(0, (int)($this->params?->get('maxSize') ?? $maxSize));
-            $maxLines = max(10, (int)($this->params?->get('maxLines') ?? $maxLines));
+            $maxSize        = max(0, (int)($this->params?->get('maxSize') ?? $maxSize));
+            $maxLines       = max(10, (int)($this->params?->get('maxLines') ?? $maxLines));
             $decorateLevels = $this->params?->get('decorateLevels', 1) ?? 1;
 
             $maxSize *= 1024;
@@ -162,7 +163,7 @@ class EasylogHelper implements DatabaseAwareInterface
                 readfile($file['path']);
             } else {
                 $string = $this->tailCustom($file['path'], $maxLines);
-                if ( $decorateLevels == 1 ) {
+                if ($decorateLevels == 1) {
                     $this->echoCSS();
                     $string = $this->decorateLevels($string);
                 }
@@ -178,12 +179,12 @@ class EasylogHelper implements DatabaseAwareInterface
 
     /**
      * return the log file with download headers
-     * 
+     *
      * A ajax call via com_ajax should return a value not null
      * howver this function closes the application
      *
      * @return  void
-     * 
+     *
      * @throws \Exception
      *
      * @since   4.4
@@ -215,12 +216,12 @@ class EasylogHelper implements DatabaseAwareInterface
 
     /**
      * deletes a log file
-     * 
+     *
      * A ajax call via com_ajax should return a value not null
      * howver this function redirect before returning to com_ajax
      *
      * @return  void
-     * 
+     *
      * @throws \Exception
      *
      * @since   4.4
@@ -266,7 +267,7 @@ class EasylogHelper implements DatabaseAwareInterface
      * Helper function to sort the files on last modification time
      *
      * @return  int
-     * 
+     *
      *
      * @since   4.4
      */
@@ -277,11 +278,11 @@ class EasylogHelper implements DatabaseAwareInterface
     }
 
     /**
-     * get the params for a given module id. 
+     * get the params for a given module id.
      * The 'string' type of the $id is weird but consistient with getModuleById
      *
-     * @return  int
-     * 
+     * @return  void
+     *
      * @throws \Exception
      *
      * @since   4.4
@@ -305,7 +306,7 @@ class EasylogHelper implements DatabaseAwareInterface
      * returns a string, convertion bytecount to a more readable string
      *
      * @return  string
-     * 
+     *
      *
      * @since   4.4
      */
@@ -337,7 +338,7 @@ class EasylogHelper implements DatabaseAwareInterface
      * @link http://stackoverflow.com/a/15025877/995958
      * @license http://creativecommons.org/licenses/by/3.0/
      * @return  string
-     * 
+     *
      *
      * @since   4.4
      */
@@ -369,11 +370,10 @@ class EasylogHelper implements DatabaseAwareInterface
 
         // Start reading
         $output = '';
-        $chunk = '';
+        $chunk  = '';
 
         // While we would like more
         while (ftell($f) > 0 && $lines >= 0) {
-
             // Figure out how far back we should jump
             $seek = min(ftell($f), $buffer);
 
@@ -393,7 +393,6 @@ class EasylogHelper implements DatabaseAwareInterface
         // While we have too many lines
         // (Because of buffer size we might have read too many)
         while ($lines++ < 0) {
-
             // Find first newline and remove all text before that
             $output = substr($output, strpos($output, "\n") + 1);
         }
@@ -402,8 +401,14 @@ class EasylogHelper implements DatabaseAwareInterface
         fclose($f);
         return trim($output);
     }
+    /**  Adds class around known log level strings
+     * @return  string
+     *
+     *
+     * @since   4.4
+     */
 
-    private function decorateLevels($string)
+    private function decorateLevels(string $string): string
     {
         return
             preg_replace('#\s(ALL|EMERGENCY|ALERT|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG)\s#', ' <span class="$1">$1</span> ', $string);
