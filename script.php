@@ -12,6 +12,7 @@
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Joomla\CMS\Language\Text;
@@ -46,6 +47,7 @@ return new class() implements
                 {
                     $this->app = $app;
                     $this->db  = Factory::getContainer()->get(DatabaseInterface::class);
+    
                 }
 
                 public function preflight($type, InstallerAdapter $adapter): bool
@@ -82,7 +84,12 @@ return new class() implements
                         return true;
                     }
 
-                  
+                    //new module check 2
+                    $query->clear()
+                        ->select($this->db->quoteName('moduleid'))
+                        ->from($this->db->quoteName('#__modules_menu'))
+                        ->where($this->db->quoteName('moduleid') . ' = ' . (int) $moduleId);
+
                     $this->db->setQuery($query);
                     $exists = $this->db->loadResult();
 
@@ -101,7 +108,9 @@ return new class() implements
                     ];
                     $this->db->updateObject('#__modules', $module, 'id', false);
 
-            
+                    $menu = (object) ['moduleid' => $moduleId, 'menuid' => 0];
+                    $this->db->insertObject('#__modules_menu', $menu);
+
                     return true;
                 }
 
