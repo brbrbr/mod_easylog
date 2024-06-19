@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package  mod_quicklog
+ * @package  mod_easylog
  *
  * @copyright 2024 Bram Brambring (https://brambring.nl)
  * @license   GNU General Public License version 3 or later;
@@ -22,17 +22,17 @@ use Joomla\CMS\Uri\Uri;
 
 <table class="table">
   <?php
-  $sessionToken = Session::getFormToken();
+ 
 
   foreach ($list as $name => $file) {
     //reset query
     $query = [
       'option' => 'com_ajax',
-      'module' => 'quicklog',
+      'module' => 'easylog',
       'format' => 'raw',
       'method' => 'view',
-      'name' => $name,
-      $sessionToken => 1,
+      'id'=>$module->id, // to get the params for view
+      'name' => $name
     ];
     $toolbar             = new Toolbar($name);
     $url                 = Route::link('administrator', $query) . '#bottom';
@@ -44,6 +44,7 @@ use Joomla\CMS\Uri\Uri;
       ->target('view-source');
     $toolbar->appendButton($viewButton);
 
+    unset($query['id']);
     $query['method'] = 'download';
     $url             = Route::link('administrator', $query);
     $downloadButton  = new LinkButton('download-' . $name, 'Download');

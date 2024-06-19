@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
+  <name>mod_easylog</name>
+  <author>Bram Brambring</author>
+  <creationDate>18-06-2024</creationDate>
+  <copyright>(C) 2024 Bram Brambring</copyright>
+  <license>GNU General Public License version 3 or later</license>
+  <authorEmail>bram@brambring.nl</authorEmail>
+  <authorUrl>https://brambring.nl</authorUrl>
+  <version>24.44.dev</version>
+  <description>MOD_EASYLOG_XML_DESCRIPTION</description>
+  <namespace path="src">Brambring\Module\Easylog</namespace>
+  <scriptfile>script.php</scriptfile>
+  <files>
+    <folder module="mod_easylog">services</folder>
+    <folder>src</folder>
+    <folder>tmpl</folder>
+    <file>CHANGELOG.txt</file>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/mod_easylog.ini</language>
+    <language tag="en-GB">language/en-GB/mod_easylog.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="basic">
+        <field name="maxSize" type="number" label="MOD_EASYLOG_MAXSIZE_LBL" description="MOD_EASYLOG_MAXSIZE_DESC" default="10" first="0" min="0" step=".1" validate="number"/>
+        <field name="maxLines" showon="maxSize!:0" type="number" label="MOD_EASYLOG_MAXLINES_LBL" description="MOD_EASYLOG_LINES_DESC" default="20" first="10" min="10" step="1" validate="number"/>
+      </fieldset>
+    </fields>
+  </config>
+  <updateservers>
+    <server name="brambring.nl" type="extension">https://downloads.brokenlinkchecker.dev/mod_easylog.xml</server>
+  </updateservers>
+</extension>

@@ -1,2 +1,3 @@
-# mod_quicklog
-Quick access to Joomla's log files
+# Easy Log Module
+
+Easy access to Joomla's log files

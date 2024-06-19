@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package  mod_quicklog
+ * @package  mod_easylog
  *
  * @copyright 2024 Bram Brambring (https://brambring.nl)
  * @license   GNU General Public License version 3 or later;
  */
 
-namespace Brambring\Module\Quicklog\Administrator\Dispatcher;
+namespace Brambring\Module\Easylog\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Dispatcher class for mod_quicklog
+ * Dispatcher class for mod_easylog
  *
  * @since  4.4.0
  */
@@ -56,17 +56,17 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $params   = $data['params'];
 
 
- 
-      
 
-      //  $data['list']   = $this->getHelperFactory()->getHelper('QuicklogHelper')->getLogFiles();
-        $data['access'] = $this->getHelperFactory()->getHelper('QuicklogHelper')->hasAccess();
+      
+      $helper= $this->getHelperFactory()->getHelper('EasylogHelper');
+      //  $data['list']   = $this->getHelperFactory()->getHelper('EasylogHelper')->getLogFiles();
+        $data['access'] = $helper->hasAccess();
        
 
         $cacheParams               = new \stdClass();
-        $cacheParams->cachesuffix  = 'mod_quicklog';
+        $cacheParams->cachesuffix  = 'mod_easylog';
         $cacheParams->cachemode    = 'id';
-        $cacheParams->class        =  $this->getHelperFactory()->getHelper('QuicklogHelper');
+        $cacheParams->class        = $helper;
         $cacheParams->method       = 'getLogFiles';
         $cacheParams->methodparams = $params;
         $cacheParams->modeparams   = md5(join(':', [$this->module->module, $this->module->id]));

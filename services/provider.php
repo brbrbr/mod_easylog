@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package  mod_quicklog
+ * @package  mod_easylog
  *
  * @copyright 2024 Bram Brambring (https://brambring.nl)
  * @license   GNU General Public License version 3 or later;
@@ -32,8 +32,9 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container): void
     {
-        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Brambring\\Module\\Quicklog'));
-        $container->registerServiceProvider(new HelperFactory('\\Brambring\\Module\\Quicklog\\Administrator\\Helper'));
+
+        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Brambring\\Module\\Easylog'));
+        $container->registerServiceProvider(new HelperFactory('\\Brambring\\Module\\Easylog\\Administrator\\Helper'));
         $container->registerServiceProvider(new Module());
     }
 };
