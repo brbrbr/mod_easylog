@@ -7,7 +7,7 @@
   <license>GNU General Public License version 3 or later</license>
   <authorEmail>bram@brambring.nl</authorEmail>
   <authorUrl>https://brambring.nl</authorUrl>
-  <version>24.44.dev</version>
+  <version>4.4.0</version>
   <description>MOD_EASYLOG_XML_DESCRIPTION</description>
   <namespace path="src">Brambring\Module\Easylog</namespace>
   <scriptfile>script.php</scriptfile>
@@ -16,6 +16,8 @@
     <folder>src</folder>
     <folder>tmpl</folder>
     <file>CHANGELOG.txt</file>
+    <file>LICENSE</file>
+    <file>README.md</file>
   </files>
   <languages>
     <language tag="en-GB">language/en-GB/mod_easylog.ini</language>
@@ -30,6 +32,6 @@
     </fields>
   </config>
   <updateservers>
-    <server name="brambring.nl" type="extension">https://downloads.brokenlinkchecker.dev/mod_easylog.xml</server>
+    <server name="brambring.nl" type="extension">https://raw.githubusercontent.com/brbrbr/mod_easylog/4.4/update.xml</server>
   </updateservers>
 </extension>
