@@ -7,3 +7,9 @@
  * L Language
  * N Note
  */
+
+4.4.2
++ Decoration of Log Levels
+# Minor fixes and improvements
+4.4.1
++ Initial version

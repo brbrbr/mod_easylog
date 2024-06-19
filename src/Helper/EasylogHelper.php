@@ -15,6 +15,7 @@ namespace Brambring\Module\Easylog\Administrator\Helper;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -26,7 +27,7 @@ use Joomla\Registry\Registry;
 class EasylogHelper implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
-
+    private ?Registry $params;
     /**
      * Returns a list of log files with metadata
      *
@@ -54,7 +55,8 @@ class EasylogHelper implements DatabaseAwareInterface
             if ($fileInfo->getExtension() != 'php') {
                 continue;
             }
-
+            $tz = date_default_timezone_get();
+            $mTime = new Date($fileInfo->getMTime(), $tz);
 
             // date_default_timezone_get() is most likely the timezone of the file stamps
             $files[$fileInfo->getFileName()] = [
@@ -64,7 +66,8 @@ class EasylogHelper implements DatabaseAwareInterface
                 'size'      => $this->humanFileSize($fileInfo->getSize()),
                 'bytesSize' => $fileInfo->getSize(),
                 'mtime'     => $fileInfo->getMTime(),
-                'date'      => HTMLHelper::_('date', $fileInfo->getMTime(), 'DATE_FORMAT_FILTER_DATETIME', date_default_timezone_get()),
+                'utc'      => HTMLHelper::_('date', $mTime, 'DATE_FORMAT_FILTER_DATETIME', 'UTC'),
+                'date'      => HTMLHelper::_('date', $mTime, 'DATE_FORMAT_FILTER_DATETIME'),
             ];
         }
         uasort($files, [$this, 'rSortMTime']);
@@ -132,19 +135,19 @@ class EasylogHelper implements DatabaseAwareInterface
         $input = $app->getInput();
         $name  = $input->get('name', '', 'cmd');
         if (isset($files[$name])) {
+            $file = $files[$name];
             $id  = $input->get('id', 0, 'int');
 
-            $module  = ModuleHelper::getModuleById((string)$id);
             $maxSize = 100;
-            $maxLines = 200;
+            $maxLines = 100;
+            $this->setParamsById((string)$id);
 
-            if ($module->id > 0) {
-                $params = new Registry($module->params);
-                $maxSize = max(0, (int)($params->get('maxSize') ?? $maxSize));
-                $maxLines = max(10, (int)($params->get('maxLines') ?? $maxLines));
-            }
+            $maxSize = max(0, (int)($this->params?->get('maxSize') ?? $maxSize));
+            $maxLines = max(10, (int)($this->params?->get('maxLines') ?? $maxLines));
+            $decorateLevels = $this->params?->get('decorateLevels', 1) ?? 1;
+
             $maxSize *= 1024;
-            if ($maxSize !== 0 && $maxSize < $files[$name]['size']) {
+            if ($maxSize !== 0 && $maxSize < $file['size']) {
                 $readFile = false;
             } else {
                 $readFile = true;
@@ -156,12 +159,17 @@ class EasylogHelper implements DatabaseAwareInterface
 
             print "<pre>";
             if ($readFile) {
-                readfile($files[$name]['path']);
+                readfile($file['path']);
             } else {
-                echo $this->tailCustom($files[$name]['path'], $maxLines);
+                $string = $this->tailCustom($file['path'], $maxLines);
+                if ( $decorateLevels == 1 ) {
+                    $this->echoCSS();
+                    $string = $this->decorateLevels($string);
+                }
+                echo $string;
             }
             print "</pre>";
-            print '<div name="bottom" id="bottom">&nbsp;</div>';
+            print "<div name=\"bottom\" id=\"bottom\">File timestap: {$file['date']} (Local) - {$file['utc']} (UTC)</div>";
             $app->close();
         }
 
@@ -268,7 +276,31 @@ class EasylogHelper implements DatabaseAwareInterface
         return $b['mtime'] <=> $a['mtime'];
     }
 
+    /**
+     * get the params for a given module id. 
+     * The 'string' type of the $id is weird but consistient with getModuleById
+     *
+     * @return  int
+     * 
+     * @throws \Exception
+     *
+     * @since   4.4
+     */
 
+    private function setParamsById(string $id): void
+    {
+        if (isset($this->params)) {
+            return;
+        }
+        $module  = ModuleHelper::getModuleById($id);
+
+        if ($module->id > 0) {
+            $this->params = new Registry($module->params);
+        } else {
+            $app = Factory::getApplication();
+            throw new \Exception($app->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+        }
+    }
     /**
      * returns a string, convertion bytecount to a more readable string
      *
@@ -369,5 +401,66 @@ class EasylogHelper implements DatabaseAwareInterface
         // Close file and return
         fclose($f);
         return trim($output);
+    }
+
+    private function decorateLevels($string)
+    {
+        return
+            preg_replace('#\s(ALL|EMERGENCY|ALERT|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG)\s#', ' <span class="$1">$1</span> ', $string);
+    }
+
+    private function getCss(): string
+    {
+
+        return "
+        pre {
+        line-height: 2em;
+    }
+.EMERGENCY {
+    background-color: rgb(228, 177, 84);
+    background-color: orange;
+    colr:#000;
+    padding: 2px;
+}
+.ALERT {
+    background-color: rgb(179, 81, 24);
+    color: #fff;
+    padding: 2px;
+}
+.CRITICAL {
+    background-color: rgb(160, 95, 9);
+    color: #fff;
+    padding: 2px;
+}
+.ERROR {
+    background-color: rgb(255, 0, 0);
+    color: #fff;
+    padding: 2px;
+}
+.WARNING {
+    background-color: orange;
+    colr:#000;
+    padding: 2px;
+}
+.NOTICE {
+    background-color: rgb(36, 75, 201);
+    color: #fff;
+    padding: 2px;
+}
+.INFO {
+    background-color: rgb(18, 129, 173);
+    color: #fff;
+    padding: 2px;
+}
+.DEBUG {
+    background-color: rgb(50, 102, 30);
+    color: #fff;
+    padding: 2px;
+}";
+    }
+
+    private function echoCSS(): void
+    {
+        echo '<style>' . $this->getCss() . '</style>';
     }
 }
