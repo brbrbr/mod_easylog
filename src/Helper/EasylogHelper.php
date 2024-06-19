@@ -27,6 +27,14 @@ class EasylogHelper implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
 
+    /**
+     * Returns a list of log files with metadata
+     *
+     * @return  array
+     *
+     * @since   4.4
+     */
+
     public function getLogfiles()
     {
 
@@ -46,9 +54,6 @@ class EasylogHelper implements DatabaseAwareInterface
             if ($fileInfo->getExtension() != 'php') {
                 continue;
             }
-
-
-
 
 
             // date_default_timezone_get() is most likely the timezone of the file stamps
@@ -84,6 +89,15 @@ class EasylogHelper implements DatabaseAwareInterface
 
         return $files;
     }
+
+    /**
+     * Has the current user administrator access
+     *
+     * @return  bool
+     *
+     * @since   4.4
+     */
+
     public function hasAccess(bool $throw = false): bool
     {
         $app  = Factory::getApplication();
@@ -97,13 +111,22 @@ class EasylogHelper implements DatabaseAwareInterface
         return true;
     }
 
+    /**
+     * Return (part) of the requested log file
+     * 
+     * A ajax call via com_ajax should return a value not null
+     * howver this function closes the application
+     *
+     * @return  void
+     * 
+     * @throws \Exception
+     *
+     * @since   4.4
+     */
 
-    public function viewAjax()
+    public function viewAjax(): void
     {
-
         $app = Factory::getApplication();
-
-
         $this->hasAccess(true);
         $files = $this->getLogfiles();
         $input = $app->getInput();
@@ -114,19 +137,19 @@ class EasylogHelper implements DatabaseAwareInterface
             $module  = ModuleHelper::getModuleById((string)$id);
             $maxSize = 100;
             $maxLines = 200;
-          
+
             if ($module->id > 0) {
                 $params = new Registry($module->params);
                 $maxSize = max(0, (int)($params->get('maxSize') ?? $maxSize));
                 $maxLines = max(10, (int)($params->get('maxLines') ?? $maxLines));
             }
-            $maxSize *=1024;
+            $maxSize *= 1024;
             if ($maxSize !== 0 && $maxSize < $files[$name]['size']) {
                 $readFile = false;
             } else {
                 $readFile = true;
             }
-       
+
             //tecnhically the better option would be to send it as text/plain
             //But how to anchor then to #bottom?
 
@@ -145,7 +168,20 @@ class EasylogHelper implements DatabaseAwareInterface
         throw new \Exception($app->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
     }
 
-    public function downloadAjax()
+    /**
+     * return the log file with download headers
+     * 
+     * A ajax call via com_ajax should return a value not null
+     * howver this function closes the application
+     *
+     * @return  void
+     * 
+     * @throws \Exception
+     *
+     * @since   4.4
+     */
+
+    public function downloadAjax(): void
     {
 
         $app = Factory::getApplication();
@@ -169,8 +205,21 @@ class EasylogHelper implements DatabaseAwareInterface
         throw new \Exception($app->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
     }
 
+    /**
+     * deletes a log file
+     * 
+     * A ajax call via com_ajax should return a value not null
+     * howver this function redirect before returning to com_ajax
+     *
+     * @return  void
+     * 
+     * @throws \Exception
+     *
+     * @since   4.4
+     */
 
-    public function deleteAjax()
+
+    public function deleteAjax(): void
     {
 
         $this->hasAccess(true);
@@ -199,20 +248,40 @@ class EasylogHelper implements DatabaseAwareInterface
                 $app->enqueueMessage("Deletion of Log file $name Failed", $app::MSG_ERROR);
             }
             $app->redirect($return);
-
             $app->close();
         }
 
         throw new \Exception($app->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
     }
 
-    private function rSortMTime($a, $b)
+    /**
+     * Helper function to sort the files on last modification time
+     *
+     * @return  int
+     * 
+     *
+     * @since   4.4
+     */
+
+    private function rSortMTime(array $a, array $b): int
     {
         return $b['mtime'] <=> $a['mtime'];
     }
-    private function humanFileSize($filesize, $precision = 0)
+
+
+    /**
+     * returns a string, convertion bytecount to a more readable string
+     *
+     * @return  string
+     * 
+     *
+     * @since   4.4
+     */
+
+
+    private function humanFileSize(int $filesize, int $precision = 0): string
     {
-        $units = ['B', 'KB', 'MB', 'GB', 'GB'];
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         $filesize = max($filesize, 0);
         $pow      = floor(($filesize ? log($filesize) : 0) / log(1024));
@@ -222,26 +291,31 @@ class EasylogHelper implements DatabaseAwareInterface
 
         return round($filesize, $precision) . ' ' . $units[$pow];
     }
-    private function getLogsPath()
+    private function getLogsPath(): string
     {
 
         return Factory::getApplication()->get('log_path');
     }
 
     /**
-     * https://gist.github.com/lorenzos/1711e81a9162320fde20
+     * Returns the last $lines lines of a file
+     * Coding rules applied from https://gist.github.com/lorenzos/1711e81a9162320fde20
      * Slightly modified version of http://www.geekality.net/2011/05/28/php-tail-tackling-large-files/
      * @author Torleif Berger, Lorenzo Stanco
      * @link http://stackoverflow.com/a/15025877/995958
      * @license http://creativecommons.org/licenses/by/3.0/
+     * @return  string
+     * 
+     *
+     * @since   4.4
      */
-    private function tailCustom($filepath, $lines = 1, $adaptive = true)
+    private function tailCustom(string $filepath, int $lines = 1, bool $adaptive = true): string
     {
 
         // Open file
         $f = @fopen($filepath, "rb");
         if ($f === false) {
-            return false;
+            return '';
         }
 
         // Sets buffer size, according to the number of lines to retrieve.

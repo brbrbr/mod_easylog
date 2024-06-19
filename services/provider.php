@@ -18,7 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The module C2PDF service provider.
  *
- * @since  4.4.0
+ * @since  4.4
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -28,7 +28,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   4.4.0
+     * @since   4.4
      */
     public function register(Container $container): void
     {
