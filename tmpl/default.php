@@ -83,5 +83,5 @@ use Joomla\CMS\Uri\Uri;
         print "<tr><td >{$file['size']}</td><td  colspan=\"2\">{$file['date']}</td></tr>";
     }
 
-    ?>
+?>
 </table>
