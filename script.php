@@ -11,7 +11,6 @@
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
@@ -37,12 +36,10 @@ return new class () implements
                 private string $minimumJoomlaVersion = '4.4';
                 // phpcs:enable PSR12.Classes.AnonClassDeclaration
 
-                protected DatabaseDriver $db;
-
+                private DatabaseDriver $db;
 
                 public function __construct()
                 {
-                   
                     $this->db  = Factory::getContainer()->get(DatabaseInterface::class);
                 }
 
@@ -71,7 +68,7 @@ return new class () implements
                     //in general there should be a module added
                     $query->from($this->db->quoteName('#__modules'))
                         ->select('id')
-                        ->where($this->db->quoteName('module') . ' = ' . $this->db->quote('mod_easylog'))
+                        ->where($this->db->quoteName('module') . ' = ' . $this->db->quote($adapter->element))
                         ->where($this->db->quoteName('client_id') . ' = 1')
                         ->where($this->db->quoteName('published') . ' = 0'); //<-- new module check 1
                     $moduleId = $this->db->setQuery($query)->loadResult();
