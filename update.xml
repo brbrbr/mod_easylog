@@ -11,7 +11,7 @@
     <downloads>
       <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.4/mod_easylog.zip</downloadurl>
     </downloads>
-    <sha512>77d9c80851ca7436c73288011c18114747045f2fa91ae9959cc78586c52cf6ea27772827175ca7d000faa541e9bc6c4e4d28ef21fbbf172c41f30f6482933b48</sha512>
+    <sha512>ddc4102604bedd3b28e8039aba03d6ad1627a8a482e4062be65a3518e26e7f739da4c51e107817bb452a6b1767cb28daf87dc90aef3614c664c958cda2244081</sha512>
     <tags>
       <tag>stable</tag>
     </tags>

@@ -7,7 +7,7 @@
   <license>GNU General Public License version 3 or later</license>
   <authorEmail>bram@brambring.nl</authorEmail>
   <authorUrl>https://brambring.nl</authorUrl>
-  <version>4.4</version>
+  <version>4.4.4</version>
   <description>MOD_EASYLOG_XML_DESCRIPTION</description>
   <namespace path="src">Brambring\Module\Easylog</namespace>
   <scriptfile>script.php</scriptfile>
