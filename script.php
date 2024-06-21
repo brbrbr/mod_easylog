@@ -16,7 +16,6 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -36,7 +35,7 @@ return new class () implements
                 private string $minimumJoomlaVersion = '4.4';
                 // phpcs:enable PSR12.Classes.AnonClassDeclaration
 
-                private DatabaseDriver $db;
+                private DatabaseInterface $db;
 
                 public function __construct()
                 {
