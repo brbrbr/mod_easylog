@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package  mod_easylog
+ * @package    mod_easylog
  *
  * @copyright 2024 Bram Brambring (https://brambring.nl)
  * @license   GNU General Public License version 3 or later;

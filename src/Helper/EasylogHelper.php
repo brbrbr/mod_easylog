@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package  mod_easylog
+ * @package    mod_easylog
  *
  * @copyright 2024 Bram Brambring (https://brambring.nl)
  * @license   GNU General Public License version 3 or later;
@@ -336,7 +336,7 @@ class EasylogHelper implements DatabaseAwareInterface
      * Slightly modified version of http://www.geekality.net/2011/05/28/php-tail-tackling-large-files/
      * @author Torleif Berger, Lorenzo Stanco
      * @link http://stackoverflow.com/a/15025877/995958
-     * @license http://creativecommons.org/licenses/by/3.0/
+     * @license   GNU General Public License version 3 or later;
      * @return  string
      *
      *

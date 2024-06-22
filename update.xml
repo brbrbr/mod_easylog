@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <updates>
   <update>
     <name>Easy Log Viewer</name>
@@ -6,18 +6,19 @@
     <element>mod_easylog</element>
     <type>module</type>
     <client>administrator</client>
-    <version>4.4.4</version>
-    <infourl title="Easy Log Viewer Module">hhttps://github.com/brbrbr/mod_easylog</infourl>
+    <version>4.4.5</version>
+    <sha256>8e90135e983781de25acf419743c3eb94707d241fd216270aa6998f040b32132</sha256>
+    <maintainer>Bram Brambring</maintainer>
+    <maintainerurl>https://brambring.nl</maintainerurl>
+    <section>-</section>
+    <infourl title="brambring.nl - Joomla Extensions - Easy Log Viewer">https://brokenlinkchecker.dev/extensions/mod-easylog</infourl>
+    <sha256>8e90135e983781de25acf419743c3eb94707d241fd216270aa6998f040b32132</sha256>
     <downloads>
-      <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.4/mod_easylog.zip</downloadurl>
+      <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.5/mod_easylog.zip</downloadurl>
     </downloads>
-    <sha512>ddc4102604bedd3b28e8039aba03d6ad1627a8a482e4062be65a3518e26e7f739da4c51e107817bb452a6b1767cb28daf87dc90aef3614c664c958cda2244081</sha512>
     <tags>
       <tag>stable</tag>
     </tags>
-    <maintainer>Bram Brambring</maintainer>
-    <maintainerurl>https://brokenlinkchecker.dev</maintainerurl>
-    <php_minimum>8.1.0</php_minimum>
-    <targetplatform name="joomla" version="(5.(0|1)|4.(4))"/>
-</update>
+    <targetplatform name="joomla" version="(5\.(0|1)|4\.(4))"/>
+  </update>
 </updates>

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @package     mod_easylog
+ * @package    mod_easylog
  * @version        24.44
- * @copyright 2023 - 2024 Bram Brambring (https://brambring.nl)
+ * @copyright 2024 Bram Brambring (https://brambring.nl)
  * @license   GNU General Public License version 3 or later;
  **/
 
