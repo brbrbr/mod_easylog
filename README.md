@@ -6,7 +6,7 @@ This administrator module shows a list of Joomla's log files and the PHP error l
 
 Visit https://brokenlinkchecker.dev/extensions/mod-easylog for more information.
 
-##Found a bug?
+## Found a bug or suggestion for an enhancement?
 
 Feel free to submit an issue or pull request.
 
