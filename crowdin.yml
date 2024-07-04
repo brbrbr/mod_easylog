@@ -1,0 +1,17 @@
+"project_id_env": "CROWDIN_BRBRBR_PROJECT_ID"
+"api_token_env": "CROWDIN_BRBRBR_PERSONAL_TOKEN"
+"base_path": "language/"
+"base_url": "https://crowdin.com/project/mod_easylog"
+"preserve_hierarchy": true
+"files": [
+  {
+    "source": "/en-GB/mod_easylog.sys.ini",
+    "translation": "/%locale%/mod_easylog.sys.ini",
+    "update_option": "update_as_unapproved"
+  },
+  {
+    "source": "/en-GB/mod_easylog.ini",
+    "translation": "/%locale%/mod_easylog.ini",
+    "update_option": "update_as_unapproved"
+  }
+]
