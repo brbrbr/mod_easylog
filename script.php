@@ -94,7 +94,7 @@ return new class () implements
                         'position'  => 'cpanel-system',
                         'published' => 1,
                         'showtitle' => 1,
-                        'params'    => '{"maxSize":"10","maxLines":"20","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
+                        'params'    => $adapter->extension->params,
                         //    'menu_assignment' => '{"assigned":[],"assignment":0}', //Joomla 5.2
                         'id' => $moduleId,
                     ];
