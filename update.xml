@@ -6,18 +6,18 @@
     <element>mod_easylog</element>
     <type>module</type>
     <client>administrator</client>
-    <version>4.4.6</version>
-    <sha256>fc3d430713b2f3085ee99f4296f47272f7ccb2f3b8b3fcfb4356e7aa89893722</sha256>
+    <version>4.4.8</version>
+    <sha256>7cf9989eff34448361f8372a37f3f6199d0986cc332b8888dd48310b9a91b717</sha256>
     <maintainer>Bram Brambring</maintainer>
     <maintainerurl>https://brambring.nl</maintainerurl>
     <section>-</section>
     <infourl title="brambring.nl - Joomla Extensions - Easy Log Viewer">https://brokenlinkchecker.dev/extensions/mod-easylog</infourl>
     <downloads>
-      <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.6/mod_easylog.zip</downloadurl>
+      <downloadurl type="full" format="zip">https://github.com/brbrbr/mod_easylog/releases/download/4.4.8/mod_easylog.zip</downloadurl>
     </downloads>
     <tags>
       <tag>stable</tag>
     </tags>
-    <targetplatform name="joomla" version="(5\.(0|1)|4\.(4)|5\.2\.0\-alpha[123])"/>
+    <targetplatform name="joomla" version="5\.(0|1|2|3)|4\.(4)"/>
   </update>
 </updates>
