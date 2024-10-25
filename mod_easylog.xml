@@ -29,7 +29,11 @@
     <fields name="params">
       <fieldset name="basic">
         <field name="maxSize" type="number" label="MOD_EASYLOG_MAXSIZE_LBL" description="MOD_EASYLOG_MAXSIZE_DESC" default="10" first="0" min="0" step=".1" validate="number"/>
-        <field name="maxLines" showon="maxSize!:0" type="number" label="MOD_EASYLOG_MAXLINES_LBL" description="MOD_EASYLOG_LINES_DESC" default="20" first="10" min="10" step="1" validate="number"/>
+        <field name="maxLines" showon="maxSize!:0" type="number" label="MOD_EASYLOG_MAXLINES_LBL" description="MOD_EASYLOG_MAXLINES_DESC" default="20" first="10" min="10" step="1" validate="number"/>
+        <field name="decorateLevels" type="radio" label="MOD_EASYLOG_DECORATE_LBL" description="MOD_EASYLOG_DECORATE_DESC" default="1" layout="joomla.form.field.radio.switcher" filter="integer">
+          <option value="0">JOff</option>
+          <option value="1">JOn</option>
+        </field>
       </fieldset>
     </fields>
   </config>
