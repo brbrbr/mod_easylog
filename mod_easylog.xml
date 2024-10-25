@@ -2,12 +2,12 @@
 <extension type="module" client="administrator" method="upgrade">
   <name>mod_easylog</name>
   <author>Bram Brambring</author>
-  <creationDate>2024-10-18</creationDate>
+  <creationDate>2024-10-25</creationDate>
   <copyright>(C) 2024 Bram Brambring</copyright>
   <license>GNU General Public License version 3 or later</license>
   <authorEmail>bram@brambring.nl</authorEmail>
   <authorUrl>https://brambring.nl</authorUrl>
-  <version>4.4.8</version>
+  <version>4.4.9</version>
   <description>MOD_EASYLOG_XML_DESCRIPTION</description>
   <namespace path="src">Brambring\Module\Easylog</namespace>
   <scriptfile>script.php</scriptfile>

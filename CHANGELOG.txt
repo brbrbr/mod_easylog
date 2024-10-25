@@ -8,7 +8,7 @@
  * N Note
  */
 
-4.4.3
+4.4.9
 # Added missing option for decation of the log. (colors for the log levels)
 L Corrected misspelled language key
 L Added Russian translations.  Thanks to  https://joomla.center
